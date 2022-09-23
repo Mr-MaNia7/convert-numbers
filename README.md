@@ -5,10 +5,15 @@ This program converts numbers to numerals (or words) both in English and Amharic
 - English
 - Amharic
 
+## Features
+- Supports 2 natural languages mentioned above.
+- Supports word currrencies in the aforementioned languages.
+- Capitalise English numerals.
+
 ## Scope
-- This program only converts 9 digit numbers meaning numbers from 0 to 999,999,999 to be specific.
-- Only properly written numbers are supported like 7 or 44 not ~~07~~ or ~~044~~.
-- Does not support comma separated numbers or numbers with white spaces like ~~1,900~~ or ~~234 970~~.
+- This program only converts 9 digit real numbers meaning numbers from 0 to 999,999,999 to be specific.
+- Only properly written numbers are supported like 7 or 44 not 07 or 044.
+- Does not support comma separated numbers or numbers with white spaces like 1,900 or 234 970.
 
 ## Reference
 Based on [Forbes Lindesay's](https://gist.github.com/ForbesLindesay) work [number-to-words.](https://gist.github.com/ForbesLindesay/5467742)

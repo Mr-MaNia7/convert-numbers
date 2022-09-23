@@ -1,15 +1,16 @@
 /**
- * Converts numbers to numerals and returns lowercase string.
+ * Converts numbers to English numerals.
  * @param {number} num The number to be converted, numbers only from 0 to 999,999,999 are supported! Otherwise an Error is thrown.
  * @return {string}
  */
-function convertNumbersToWords(num) {
+ function toNumeralsEN(num) {
   var ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
     'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
     'seventeen', 'eighteen', 'nineteen'];
   var tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty',
     'ninety'];
   var zero = 'zero';
+
   var numString = num.toString();
 
   try {
@@ -30,45 +31,45 @@ function convertNumbersToWords(num) {
       var end = +(numString.slice(1))
       if (end === 0)
         return ones[numString[0]] + ' hundred';
-      return ones[numString[0]] + ' hundred ' + convertNumbersToWords(+(numString[1] + numString[2]));
+      return ones[numString[0]] + ' hundred ' + toNumeralsEN(+(numString[1] + numString[2]));
     }
     // 1000 - 9999
     else if (numString.length === 4) {
       var end = +(numString.slice(1));
       if (end === 0) return ones[numString[0]] + ' thousand';
-      else if (end < 100) return ones[numString[0]] + ' thousand ' + convertNumbersToWords(end);
-      return ones[numString[0]] + ' thousand ' + convertNumbersToWords(end);
+      else if (end < 100) return ones[numString[0]] + ' thousand ' + toNumeralsEN(end);
+      return ones[numString[0]] + ' thousand ' + toNumeralsEN(end);
     }
     // 10,000 - 99,999
     else if (numString.length === 5) {
       var end = +(numString.slice(2));
-      if (end === 0) return convertNumbersToWords(numString.slice(0, 2)) + ' thousand';
-      return convertNumbersToWords(numString.slice(0, 2)) + ' thousand ' + convertNumbersToWords(end);
+      if (end === 0) return toNumeralsEN(numString.slice(0, 2)) + ' thousand';
+      return toNumeralsEN(numString.slice(0, 2)) + ' thousand ' + toNumeralsEN(end);
     }
     // 100,000 - 999,999
     else if (numString.length === 6) {
       var end = +(numString.slice(3));
-      if (end === 0) return convertNumbersToWords(numString.slice(0, 3)) + ' thousand';
-      return convertNumbersToWords(numString.slice(0, 3)) + ' thousand ' + convertNumbersToWords(end);
+      if (end === 0) return toNumeralsEN(numString.slice(0, 3)) + ' thousand';
+      return toNumeralsEN(numString.slice(0, 3)) + ' thousand ' + toNumeralsEN(end);
     }
     // 1,000,000 - 9,999,999
     else if (numString.length === 7) {
       var end = +(numString.slice(1));
       if (end === 0) return ones[numString[0]] + ' million';
-      else if (end < 100) return ones[numString[0]] + ' million ' + convertNumbersToWords(numString.slice(5));
-      return ones[numString[0]] + ' million ' + convertNumbersToWords(end);
+      else if (end < 100) return ones[numString[0]] + ' million ' + toNumeralsEN(numString.slice(5));
+      return ones[numString[0]] + ' million ' + toNumeralsEN(end);
     }
     // 10,000,000 - 99,999,999
     else if (numString.length === 8) {
       var end = +(numString.slice(2));
-      if (end === 0) return convertNumbersToWords(numString.slice(0, 2)) + ' million';
-      return convertNumbersToWords(numString.slice(0, 2)) + ' million ' + convertNumbersToWords(end);
+      if (end === 0) return toNumeralsEN(numString.slice(0, 2)) + ' million';
+      return toNumeralsEN(numString.slice(0, 2)) + ' million ' + toNumeralsEN(end);
     }
     // 100,000,000 - 999,999,999
     else if (numString.length === 9) {
       var end = +(numString.slice(3));
-      if (end === 0) return convertNumbersToWords(numString.slice(0, 3)) + ' million';
-      return convertNumbersToWords(numString.slice(0, 3)) + ' million ' + convertNumbersToWords(end);
+      if (end === 0) return toNumeralsEN(numString.slice(0, 3)) + ' million';
+      return toNumeralsEN(numString.slice(0, 3)) + ' million ' + toNumeralsEN(end);
     }
     // < 0 or > 999,999,999
     else if (num < 0 || num > 999, 999, 999) {
@@ -84,9 +85,30 @@ function convertNumbersToWords(num) {
  * Formats numerals converted.
  * @param {number} num The number to be changed and formatted to numeral.
  */
- function formattedNumeral(num) {
-    var numeral = convertNumbersToWords(num);
-    return numeral[0].toUpperCase() + numeral.slice(1);
+function toFormattedNumeral(num) {
+  var numeral = toNumeralsEN(num);
+  return numeral[0].toUpperCase() + numeral.slice(1);
 }
 
-console.log(formattedNumeral(200220565));
+/**
+ * Converts numbers to English currency.
+ * @param {number} num The number to be formatted as a word currency, decimal numbers in the range 0.00 to 999,999,999.99 are supported! Otherwise an Error is thrown.
+ * @return {string}
+ */
+function toCurrencyEN(num) {
+  try {
+    var numString = num.toString();
+    var dotPos = numString.indexOf('.');
+    var numString = num.toPrecision(dotPos + 2).toString();
+    if (dotPos > 0) {
+      var currency = toFormattedNumeral(+numString.slice(0, dotPos)) + ' dollars ' + toNumeralsEN(+numString.slice(dotPos + 1)) + ' cents';
+      return currency;
+    }
+    else throw new Error("Number not supported as a currency.")
+  }
+  catch (error) {
+    return error;
+  }
+}
+
+console.log(toCurrencyEN(2002205.5));
