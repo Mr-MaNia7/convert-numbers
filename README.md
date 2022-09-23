@@ -1,5 +1,5 @@
 # Convert numbers to numerals in English and Amharic
-This program converts numbers to numerals (or words) both in English and Amharic languages. The conversion can be done for numbers up to 9 digit numbers. The **English Version** can also return capitalised string of numerals.
+This program converts numbers to numerals (or words) and to currencies both in English and Amharic languages. The conversion can be done for numbers up to 9 digit numbers. The **English Version** can also return capitalised string of numerals.
 
 ## Natural Languanges
 - English
